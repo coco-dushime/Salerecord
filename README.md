@@ -1,6 +1,6 @@
 # Sales Record Management System
 
-National Practical Exam Project
+
 
 ## Installation
 
