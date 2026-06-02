@@ -48,58 +48,108 @@ export default function LoginPage() {
     }
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-surface px-4">
-      <form onSubmit={submit} className="w-full max-w-md bg-card rounded-2xl shadow-xl p-8 border border-line">
-        <div className="w-12 h-1 bg-accent rounded mb-4" />
-        <h1 className="text-2xl font-bold text-ink">Sales Record Management System</h1>
-        <p className="text-muted text-sm mt-1">SRMS</p>
-        <div className="mt-6 space-y-3">
-          <input
-            className="w-full rounded-lg border border-line px-3 py-2.5"
-            placeholder="Username"
-            value={form.username}
-            onChange={(e) => setForm({ ...form, username: e.target.value })}
-          />
-          {mode === "register" && (
-            <input
-              className="w-full rounded-lg border border-line px-3 py-2.5"
-              type="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-            />
-          )}
-          <input
-            className="w-full rounded-lg border border-line px-3 py-2.5"
-            type="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-          />
+return (
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-indigo-100 px-4">
+    <form
+      onSubmit={submit}
+      className="w-full max-w-md bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl p-8"
+    >
+      {/* Header */}
+      <div className="text-center mb-6">
+        <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span className="text-white text-2xl font-bold">S</span>
         </div>
-        {message && <p className="mt-3 text-sm text-green-600">{message}</p>}
-        {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
-        <button type="submit" className="mt-5 w-full rounded-lg bg-accent text-accent-text py-2.5 font-semibold">
-          {mode === "login" ? "Sign In" : "Register"}
-        </button>
-        {mode === "login" && (
-          <Link to="/forgot-password" className="mt-3 block w-full text-center text-sm text-muted underline">
-            Forgot Password?
-          </Link>
+
+        <h1 className="text-3xl font-bold text-gray-800">
+          Sales Record Management
+        </h1>
+        <p className="text-gray-500 mt-2">SRMS Login System</p>
+      </div>
+
+      {/* Inputs */}
+      <div className="space-y-4">
+        <input
+          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Username"
+          value={form.username}
+          onChange={(e) =>
+            setForm({ ...form, username: e.target.value })
+          }
+        />
+
+        {mode === "register" && (
+          <input
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            type="email"
+            placeholder="Email Address"
+            value={form.email}
+            onChange={(e) =>
+              setForm({ ...form, email: e.target.value })
+            }
+          />
         )}
-        <button
-          type="button"
-          onClick={() => {
-            setMode(mode === "login" ? "register" : "login");
-            setError("");
-            setForm({ username: form.username, email: "", password: "" });
-          }}
-          className="mt-3 w-full text-sm text-muted underline"
+
+        <input
+          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) =>
+            setForm({ ...form, password: e.target.value })
+          }
+        />
+      </div>
+
+      {/* Messages */}
+      {message && (
+        <div className="mt-4 bg-green-100 text-green-700 p-3 rounded-lg text-sm">
+          {message}
+        </div>
+      )}
+
+      {error && (
+        <div className="mt-4 bg-red-100 text-red-700 p-3 rounded-lg text-sm">
+          {error}
+        </div>
+      )}
+
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition duration-300"
+      >
+        {mode === "login" ? "Sign In" : "Register"}
+      </button>
+
+      {/* Forgot Password */}
+      {mode === "login" && (
+        <Link
+          to="/forgot-password"
+          className="block text-center text-blue-600 mt-4 text-sm hover:underline"
         >
-          {mode === "login" ? "Create account" : "Back to login"}
-        </button>
-      </form>
-    </div>
-  );
+          Forgot Password?
+        </Link>
+      )}
+
+      {/* Toggle Mode */}
+      <button
+        type="button"
+        onClick={() => {
+          setMode(mode === "login" ? "register" : "login");
+          setError("");
+          setForm({
+            username: form.username,
+            email: "",
+            password: "",
+          });
+        }}
+        className="w-full mt-4 text-gray-600 text-sm hover:text-blue-600 transition"
+      >
+        {mode === "login"
+          ? "Don't have an account? Register"
+          : "Already have an account? Login"}
+      </button>
+    </form>
+  </div>
+);
 }

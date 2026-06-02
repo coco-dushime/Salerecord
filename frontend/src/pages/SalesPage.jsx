@@ -157,154 +157,254 @@ export default function SalesPage() {
     return `${p.product_name} (${code})`;
   };
 
-  const inputClass = (key) =>
-    `mt-1 w-full rounded-lg border px-3 py-2 ${fieldErrors[key] ? "border-red-500" : "border-line"}`;
+ const inputClass = (key) =>
+  `mt-2 w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+    fieldErrors[key] ? "border-red-500" : "border-gray-300"
+  }`;
 
   const canSubmit = customers.length > 0 && products.length > 0;
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-ink">Sales</h2>
-        <p className="text-muted text-sm">Record sales — select customer, product, and payment method from the list</p>
-      </div>
-      {(customers.length === 0 || products.length === 0) && (
-        <p className="text-amber-700 text-sm bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
-          Add at least one customer and one product before recording sales.
+  <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-indigo-100 p-6">
+    <div className="max-w-7xl mx-auto space-y-8">
+
+      {/* Header */}
+      <div className="text-center">
+        <h2 className="text-4xl font-bold text-gray-800">
+          Sales Management
+        </h2>
+        <p className="text-gray-500 mt-2">
+          Record and manage customer sales transactions
         </p>
+      </div>
+
+      {/* Warning */}
+      {(customers.length === 0 || products.length === 0) && (
+        <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 p-4 rounded-xl">
+          Add at least one customer and one product before recording sales.
+        </div>
       )}
-      <form onSubmit={submit} className="bg-card rounded-xl border border-line p-6 grid gap-4 md:grid-cols-2">
-        <label className="block text-sm">
-          <span className="font-medium text-ink">Invoice Number</span>
+
+      {/* Form */}
+      <form
+        onSubmit={submit}
+        className="bg-white rounded-3xl shadow-xl p-8 grid gap-5 md:grid-cols-2"
+      >
+        <label>
+          <span className="font-semibold text-gray-700">
+            Invoice Number
+          </span>
           <input
             className={inputClass("invoiceNumber")}
             value={form.invoiceNumber}
-            onChange={(e) => setField("invoiceNumber", e.target.value)}
+            onChange={(e) =>
+              setField("invoiceNumber", e.target.value)
+            }
           />
-          {fieldErrors.invoiceNumber && <p className="text-red-600 text-xs mt-1">{fieldErrors.invoiceNumber}</p>}
         </label>
-        <label className="block text-sm">
-          <span className="font-medium text-ink">Sales Date</span>
+
+        <label>
+          <span className="font-semibold text-gray-700">
+            Sales Date
+          </span>
           <input
             type="datetime-local"
             className={inputClass("salesDate")}
             value={form.salesDate}
-            onChange={(e) => setField("salesDate", e.target.value)}
+            onChange={(e) =>
+              setField("salesDate", e.target.value)
+            }
           />
-          {fieldErrors.salesDate && <p className="text-red-600 text-xs mt-1">{fieldErrors.salesDate}</p>}
         </label>
-        <label className="block text-sm">
-          <span className="font-medium text-ink">Payment Method</span>
+
+        <label>
+          <span className="font-semibold text-gray-700">
+            Payment Method
+          </span>
           <select
             className={inputClass("paymentMethod")}
             value={form.paymentMethod}
-            onChange={(e) => setField("paymentMethod", e.target.value)}
+            onChange={(e) =>
+              setField("paymentMethod", e.target.value)
+            }
           >
-            <option value="">Select payment method</option>
+            <option value="">Select Payment</option>
             {PAYMENT_METHODS.map((m) => (
-              <option key={m} value={m}>{m}</option>
+              <option key={m} value={m}>
+                {m}
+              </option>
             ))}
           </select>
-          {fieldErrors.paymentMethod && <p className="text-red-600 text-xs mt-1">{fieldErrors.paymentMethod}</p>}
         </label>
-        <label className="block text-sm">
-          <span className="font-medium text-ink">Total Amount</span>
+
+        <label>
+          <span className="font-semibold text-gray-700">
+            Total Amount
+          </span>
           <input
             type="number"
             min="0"
             step="0.01"
             className={inputClass("totalAmountPaid")}
             value={form.totalAmountPaid}
-            onChange={(e) => setField("totalAmountPaid", e.target.value)}
+            onChange={(e) =>
+              setField("totalAmountPaid", e.target.value)
+            }
           />
-          {fieldErrors.totalAmountPaid && <p className="text-red-600 text-xs mt-1">{fieldErrors.totalAmountPaid}</p>}
         </label>
-        <label className="block text-sm">
-          <span className="font-medium text-ink">Customer</span>
+
+        <label>
+          <span className="font-semibold text-gray-700">
+            Customer
+          </span>
           <select
             className={inputClass("customerNumber")}
             value={form.customerNumber}
-            onChange={(e) => setField("customerNumber", e.target.value)}
+            onChange={(e) =>
+              setField("customerNumber", e.target.value)
+            }
             disabled={customers.length === 0}
           >
-            <option value="">Select customer</option>
+            <option value="">Select Customer</option>
             {customers.map((c) => (
-              <option key={c.customer_number} value={c.customer_number}>
-                {c.customer_number} — {c.first_name} {c.last_name}
+              <option
+                key={c.customer_number}
+                value={c.customer_number}
+              >
+                {c.customer_number} - {c.first_name} {c.last_name}
               </option>
             ))}
           </select>
-          {fieldErrors.customerNumber && <p className="text-red-600 text-xs mt-1">{fieldErrors.customerNumber}</p>}
         </label>
-        <label className="block text-sm">
-          <span className="font-medium text-ink">Product</span>
+
+        <label>
+          <span className="font-semibold text-gray-700">
+            Product
+          </span>
           <select
             className={inputClass("productCode")}
             value={form.productCode}
-            onChange={(e) => setField("productCode", e.target.value)}
+            onChange={(e) =>
+              setField("productCode", e.target.value)
+            }
             disabled={products.length === 0}
           >
-            <option value="">Select product</option>
+            <option value="">Select Product</option>
             {products.map((p) => (
-              <option key={p.product_code} value={p.product_code}>
-                {p.product_code} — {p.product_name}
+              <option
+                key={p.product_code}
+                value={p.product_code}
+              >
+                {p.product_code} - {p.product_name}
               </option>
             ))}
           </select>
-          {fieldErrors.productCode && <p className="text-red-600 text-xs mt-1">{fieldErrors.productCode}</p>}
         </label>
-        <div className="md:col-span-2 flex flex-wrap gap-3 items-center">
+
+        <div className="md:col-span-2 flex flex-wrap gap-4 items-center">
           <button
             type="submit"
             disabled={loading || !canSubmit}
-            className="rounded-lg bg-accent text-accent-text px-5 py-2 font-semibold disabled:opacity-50"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition duration-300 disabled:opacity-50"
           >
-            {loading ? "Saving..." : editId ? "Update" : "Add Sale"}
+            {loading
+              ? "Saving..."
+              : editId
+              ? "Update Sale"
+              : "Add Sale"}
           </button>
+
           {editId && (
             <button
               type="button"
-              onClick={() => { setEditId(null); setForm(emptyForm); setFieldErrors({}); }}
-              className="rounded-lg border border-line px-5 py-2"
+              onClick={() => {
+                setEditId(null);
+                setForm(emptyForm);
+                setFieldErrors({});
+              }}
+              className="border border-gray-300 px-8 py-3 rounded-xl hover:bg-gray-100"
             >
               Cancel
             </button>
           )}
-          {message && <span className="text-sm text-green-600">{message}</span>}
-          {error && <span className="text-sm text-red-600">{error}</span>}
+
+          {message && (
+            <span className="bg-green-100 text-green-700 px-4 py-2 rounded-lg">
+              {message}
+            </span>
+          )}
+
+          {error && (
+            <span className="bg-red-100 text-red-700 px-4 py-2 rounded-lg">
+              {error}
+            </span>
+          )}
         </div>
       </form>
-      <div className="bg-card rounded-xl border border-line overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="bg-surface text-left">
+
+      {/* Table */}
+      <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-blue-600 text-white">
             <tr>
-              <th className="px-4 py-3">Invoice</th>
-              <th className="px-4 py-3">Date</th>
-              <th className="px-4 py-3">Payment</th>
-              <th className="px-4 py-3">Amount</th>
-              <th className="px-4 py-3">Customer</th>
-              <th className="px-4 py-3">Product</th>
-              <th className="px-4 py-3">Actions</th>
+              <th className="px-6 py-4 text-left">Invoice</th>
+              <th className="px-6 py-4 text-left">Date</th>
+              <th className="px-6 py-4 text-left">Payment</th>
+              <th className="px-6 py-4 text-left">Amount</th>
+              <th className="px-6 py-4 text-left">Customer</th>
+              <th className="px-6 py-4 text-left">Product</th>
+              <th className="px-6 py-4 text-left">Actions</th>
             </tr>
           </thead>
+
           <tbody>
             {rows.map((row) => (
-              <tr key={row.invoice_number} className="border-t border-line">
-                <td className="px-4 py-3">{row.invoice_number}</td>
-                <td className="px-4 py-3">{String(row.sales_date ?? "").slice(0, 16)}</td>
-                <td className="px-4 py-3">{row.payment_method}</td>
-                <td className="px-4 py-3">{row.total_amount_paid}</td>
-                <td className="px-4 py-3">{customerLabel(row.customer_number)}</td>
-                <td className="px-4 py-3">{productLabel(row.product_code)}</td>
-                <td className="px-4 py-3 space-x-2">
-                  <button type="button" onClick={() => startEdit(row)} className="text-accent font-medium">Edit</button>
-                  <button type="button" onClick={() => remove(row.invoice_number)} className="text-red-600 font-medium">Delete</button>
+              <tr
+                key={row.invoice_number}
+                className="border-b hover:bg-gray-50 transition"
+              >
+                <td className="px-6 py-4 font-medium">
+                  {row.invoice_number}
+                </td>
+                <td className="px-6 py-4">
+                  {String(row.sales_date ?? "").slice(0, 16)}
+                </td>
+                <td className="px-6 py-4">
+                  {row.payment_method}
+                </td>
+                <td className="px-6 py-4">
+                  {Number(row.total_amount_paid).toLocaleString()} RWF
+                </td>
+                <td className="px-6 py-4">
+                  {customerLabel(row.customer_number)}
+                </td>
+                <td className="px-6 py-4">
+                  {productLabel(row.product_code)}
+                </td>
+                <td className="px-6 py-4 space-x-3">
+                  <button
+                    type="button"
+                    onClick={() => startEdit(row)}
+                    className="text-blue-600 font-semibold hover:underline"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => remove(row.invoice_number)}
+                    className="text-red-600 font-semibold hover:underline"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
     </div>
-  );
+  </div>
+);
 }

@@ -66,70 +66,90 @@ export default function ReportsPage() {
     }
   };
 
-  return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-ink">Reports</h2>
-        <p className="text-muted text-sm">Daily, weekly, and monthly customer, product, and sales reports</p>
+return (
+  <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-indigo-100 p-6">
+    <div className="max-w-7xl mx-auto space-y-8">
+
+      {/* Header */}
+      <div className="text-center">
+        <h2 className="text-4xl font-bold text-gray-800">
+          Sales Reports
+        </h2>
+        <p className="text-gray-500 mt-2">
+          Daily, Weekly and Monthly Customer, Product & Sales Reports
+        </p>
       </div>
 
-      <div className="bg-card rounded-xl border border-line p-6 space-y-4">
-        <label className="block text-sm font-medium text-ink">
-          Report type
+      {/* Filters */}
+      <div className="bg-white rounded-3xl shadow-xl p-8 space-y-6">
+
+        <label className="block">
+          <span className="font-semibold text-gray-700">
+            Report Type
+          </span>
           <select
             value={period}
             onChange={(e) => setPeriod(e.target.value)}
-            className="mt-1 w-full md:w-64 rounded-lg border border-line px-3 py-2"
+            className="mt-2 w-full md:w-72 px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           >
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
+            <option value="daily">Daily Report</option>
+            <option value="weekly">Weekly Report</option>
+            <option value="monthly">Monthly Report</option>
           </select>
         </label>
 
         {period === "daily" && (
-          <label className="block text-sm font-medium text-ink">
-            Select date
+          <label className="block">
+            <span className="font-semibold text-gray-700">
+              Select Date
+            </span>
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="mt-1 w-full md:w-64 rounded-lg border border-line px-3 py-2"
+              className="mt-2 w-full md:w-72 px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </label>
         )}
 
         {period === "weekly" && (
-          <div className="grid gap-4 md:grid-cols-2">
-            <label className="block text-sm font-medium text-ink">
-              Start date
+          <div className="grid gap-5 md:grid-cols-2">
+            <label>
+              <span className="font-semibold text-gray-700">
+                Start Date
+              </span>
               <input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="mt-1 w-full rounded-lg border border-line px-3 py-2"
+                className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </label>
-            <label className="block text-sm font-medium text-ink">
-              End date
+
+            <label>
+              <span className="font-semibold text-gray-700">
+                End Date
+              </span>
               <input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="mt-1 w-full rounded-lg border border-line px-3 py-2"
+                className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </label>
           </div>
         )}
 
         {period === "monthly" && (
-          <label className="block text-sm font-medium text-ink">
-            Select month
+          <label className="block">
+            <span className="font-semibold text-gray-700">
+              Select Month
+            </span>
             <input
               type="month"
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className="mt-1 w-full md:w-64 rounded-lg border border-line px-3 py-2"
+              className="mt-2 w-full md:w-72 px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </label>
         )}
@@ -138,55 +158,83 @@ export default function ReportsPage() {
           type="button"
           onClick={load}
           disabled={loading}
-          className="rounded-lg bg-accent text-accent-text px-5 py-2.5 font-semibold disabled:opacity-60"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition duration-300 disabled:opacity-50"
         >
-          {loading ? "Loading..." : "Generate report"}
+          {loading ? "Loading..." : "Generate Report"}
         </button>
+
       </div>
 
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+      {/* Error */}
+      {error && (
+        <div className="bg-red-100 text-red-700 p-4 rounded-xl">
+          {error}
+        </div>
+      )}
 
+      {/* Reports */}
       {data && (
-        <div className="grid gap-6">
+        <div className="grid gap-8">
           {sections.map((s) => (
-            <div key={s.key} className="bg-card rounded-xl border border-line overflow-x-auto">
-              <h3 className="px-4 py-3 font-semibold border-b border-line bg-surface">
+            <div
+              key={s.key}
+              className="bg-white rounded-3xl shadow-xl overflow-hidden"
+            >
+              <div className="bg-blue-600 text-white px-6 py-4 font-semibold text-lg">
                 {s.label} ({(data[s.key] || []).length})
-              </h3>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr>
-                    {s.cols.map((c) => (
-                      <th key={c} className="px-4 py-2 text-left">
-                        {c}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {(data[s.key] || []).length === 0 ? (
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-100">
                     <tr>
-                      <td colSpan={s.cols.length} className="px-4 py-6 text-center text-muted">
-                        No records for this period.
-                      </td>
+                      {s.cols.map((c) => (
+                        <th
+                          key={c}
+                          className="px-6 py-4 text-left font-semibold text-gray-700"
+                        >
+                          {c}
+                        </th>
+                      ))}
                     </tr>
-                  ) : (
-                    (data[s.key] || []).map((row, i) => (
-                      <tr key={i} className="border-t border-line">
-                        {s.keys.map((k) => (
-                          <td key={k} className="px-4 py-2">
-                            {String(row[k] ?? "").slice(0, 40)}
-                          </td>
-                        ))}
+                  </thead>
+
+                  <tbody>
+                    {(data[s.key] || []).length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={s.cols.length}
+                          className="px-6 py-8 text-center text-gray-500"
+                        >
+                          No records found for this period.
+                        </td>
                       </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+                    ) : (
+                      (data[s.key] || []).map((row, i) => (
+                        <tr
+                          key={i}
+                          className="border-b hover:bg-gray-50 transition"
+                        >
+                          {s.keys.map((k) => (
+                            <td
+                              key={k}
+                              className="px-6 py-4"
+                            >
+                              {String(row[k] ?? "").slice(0, 40)}
+                            </td>
+                          ))}
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           ))}
         </div>
       )}
+
     </div>
-  );
+  </div>
+);
 }
